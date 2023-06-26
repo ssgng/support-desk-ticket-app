@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
+import { createTicket } from '../features/tickets/ticketSlice'
 import BackButton from '../components/BackButton'
 
 function NewTicket() {
@@ -18,13 +18,13 @@ function NewTicket() {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    // dispatch(createTicket({ product, description }))
-    //   .unwrap()
-    //   .then(() => {
-    //     navigate('/tickets')
-    //     toast.success('New ticket created!')
-    //   })
-    //   .catch(toast.error)
+    dispatch(createTicket({ product, description }))
+      .unwrap()
+      .then(() => {
+        navigate('/tickets')
+        toast.success('New ticket created!')
+      })
+      .catch(toast.error)
   }
 
   return (
