@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit'
 import authService from './authService'
+import { extractErrorMessage } from '../../utils'
 
+// Get user from localstorage
+const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
-  user: null,
+  user: user ? user : null,
   isLoading: false,
 }
 
@@ -28,11 +31,11 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 })
 
-// Logout user
 
+ // Logout user
 export const logout = createAction('auth/logout', () => {
   authService.logout()
-
+  
   return {}
 })
 
@@ -55,6 +58,16 @@ export const authSlice = createSlice({
         state.isLoading = false
       })
       .addCase(register.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(login.pending, (state) => {
+        state.isLoading = false
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.isLoading = false
+      })
+      .addCase(login.rejected, (state) => {
         state.isLoading = false
       })
   },

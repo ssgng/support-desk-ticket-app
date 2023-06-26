@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
-import {useSelector, useDispatch} from "react-redux"
-import { register } from "../features/auth/authSlice"
-
+import { useSelector, useDispatch } from 'react-redux'
+import { register } from '../features/auth/authSlice'
+import Spinner from '../components/Spinner'
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -55,6 +55,9 @@ function Register() {
     }
   }
 
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <>
